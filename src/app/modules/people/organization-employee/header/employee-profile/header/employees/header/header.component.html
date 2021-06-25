@@ -1,48 +1,59 @@
-<mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-</mat-form-field>
-<mat-form-field>
-    <mat-label>Active/Non-Active</mat-label>
-    <mat-select [(ngModel)]="activeVal" (selectionChange)="changeStatus($event)">
-        <mat-option [value]="active.value" *ngFor="let active of activeEmployees">
-            {{ active.status }}
-        </mat-option>
-    </mat-select>
-</mat-form-field>
-<mat-form-field>
-    <mat-label>Sort By</mat-label>
-    <mat-select [(ngModel)]="sortData" (selectionChange)="changeOrder($event, null)">
-        <mat-option *ngFor="let empSort of employeeSort" [value]="empSort.value">
-            {{empSort.sort}}
-        </mat-option>
-    </mat-select>
-</mat-form-field>
-
-<mat-table class="custom-table" #dtable [dataSource]="dataSource">
-    <div *ngFor="let column of columns">
-        <ng-container [cdkColumnDef]="column.columnDef" *ngIf="column.header != 'Name'">
-            <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
-            <mat-cell *cdkCellDef="let row">{{
-                column.cell(row)}}</mat-cell>
-        </ng-container>
-        <ng-container [cdkColumnDef]="column.columnDef" *ngIf="column.header == 'Name'">
-            <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
-            <mat-cell *cdkCellDef="let element">
-                <button mat-icon-button [matMenuTriggerFor]="clickmenu">
-                    {{column.cell(element)}}
-                    <mat-menu #clickmenu="matMenu">
-                        <ng-container *ngFor="let item of menuListItems">
-                            <button mat-menu-item (click)="navigate(item.path, element.empID)">{{ item.menuLinkText
-                                }}</button>
-                        </ng-container>
-                    </mat-menu>
-                </button>
-            </mat-cell>
-        </ng-container>
-    </div>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
-<mat-paginator firstPageLabel="First" [length]="20" [pageSizeOptions]="[5, 10, 25, 100]">
-</mat-paginator>
+<div class="container-fluid mt-5">
+    <mat-card class="example-card">
+        <mat-card-header>
+            <mat-card-title>Employee List</mat-card-title>
+            <mat-form-field class="ml-auto">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Active/Non-Active</mat-label>
+                <mat-select [(ngModel)]="activeVal" (selectionChange)="changeStatus($event)">
+                    <mat-option [value]="active.value" *ngFor="let active of activeEmployees">
+                        {{ active.status }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Sort By</mat-label>
+                <mat-select [(ngModel)]="sortData" (selectionChange)="changeOrder($event, null)">
+                    <mat-option *ngFor="let empSort of employeeSort" [value]="empSort.value">
+                        {{empSort.sort}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-table class="custom-table" #dtable [dataSource]="dataSource">
+                <div *ngFor="let column of columns">
+                    <ng-container [cdkColumnDef]="column.columnDef" *ngIf="column.header != 'Name'">
+                        <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+                        <mat-cell *cdkCellDef="let row">{{
+                            column.cell(row)}}</mat-cell>
+                    </ng-container>
+                    <ng-container [cdkColumnDef]="column.columnDef" *ngIf="column.header == 'Name'">
+                        <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+                        <mat-cell *cdkCellDef="let element">
+                            <button mat-icon-button [matMenuTriggerFor]="clickmenu">
+                                {{column.cell(element)}}
+                                <mat-menu #clickmenu="matMenu">
+                                    <ng-container *ngFor="let item of menuListItems">
+                                        <button mat-menu-item (click)="navigate(item.path, element.empID)">{{
+                                            item.menuLinkText
+                                            }}</button>
+                                    </ng-container>
+                                </mat-menu>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+                </div>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+        </mat-card-content>
+        <mat-card-actions>
+            <mat-paginator firstPageLabel="First" [length]="20" [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+        </mat-card-actions>
+    </mat-card>
+</div>
